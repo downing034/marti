@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function TableBody({ children }) {
+export default function Panel({ children }) {
   return (
-    <tbody>{children}</tbody>
+    <div className="card card-default">
+      {children}
+    </div>
   )
 }
 
-TableBody.displayName = 'TableBody';
+Panel.displayName = 'Panel';
 
-TableBody.propTypes = {
+Panel.propTypes = {
   children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node

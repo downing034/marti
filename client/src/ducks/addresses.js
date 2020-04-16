@@ -51,7 +51,7 @@ export const addressesError = (data) => {
 };
 
 // services
-export function loadAddresses() {
+export function getAddresses() {
   return dispatch => {
     dispatch(receiveAddressesStarted());
     return axios.get('/api/addresses').then(res => {
@@ -62,4 +62,20 @@ export function loadAddresses() {
     });
   };
 };
+
+export function getAddress(addressId) {
+  return dispatch => {
+    dispatch(receiveAddressesStarted());
+    return axios.get(`/api/addresses/${addressId}`).then(res => {
+      return dispatch(receiveAddresses(camelcaseKeys(res.data)));
+    })
+    .catch(error => {
+      return dispatch(addressesError(error));
+    });
+  };
+}
+
+export function submitAddressForm(addressData) {
+  console.log('foobar')
+}
 

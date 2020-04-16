@@ -1,22 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Loader from '../common/loader';
 import Table from '../common/tables/table';
 import TableHeader from '../common/tables/table-header';
 import TableBody from '../common/tables/table-body';
 import TableRow from '../common/tables/table-row';
+import Td from '../common/tables/table-data';
+
+import '../../styles/table-styles.css';
 
 export default class AddressContainer extends React.Component {
-  componentDidMount() {
-    const { loadAddresses } = this.props;
-    loadAddresses()
-  }
 
   render() {
-    const { addresses, addressesLoaded } = this.props;
-    const headers = ['Address', 'City', 'State', 'Zip Code', 'Country'];
-    console.log(addressesLoaded)
-    if (!addressesLoaded) { return ( <Loader /> ) }
+    console.log(this.props)
+    const { addresses } = this.props;
+    const headers = [
+      { name: 'Address' },
+      { name: 'City', classes: 'text-center' },
+      { name: 'State', classes: 'text-center' },
+      { name: 'Zip Code', classes: 'text-center' },
+      { name: 'Country', classes: 'text-center' }
+    ]
 
     return (
       <div>
@@ -31,14 +34,21 @@ export default class AddressContainer extends React.Component {
   }
 
   renderAddresses(addresses) {
+    const { history } = this.props;
     return addresses.map((address, index) => {
+      const addressId = address.id
       return (
-        <TableRow key={index}>
-          <td>{address.address}</td>
-          <td>{address.city}</td>
-          <td>{address.state}</td>
-          <td>{address.zipCode}</td>
-          <td>{address.country}</td>
+        <TableRow
+          key={index}
+          clickable={true}
+          to={`/addresses/${addressId}`}
+          history={history}
+        >
+          <Td to={`/addresses/${addressId}`}>{address.address}</Td>
+          <Td classes="text-center">{address.city}</Td>
+          <Td classes="text-center">{address.state}</Td>
+          <Td classes="text-center">{address.zipCode}</Td>
+          <Td classes="text-center">{address.country}</Td>
         </TableRow>
       )
     })
