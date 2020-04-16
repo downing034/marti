@@ -4,8 +4,6 @@ class PeopleController < ApiController
   # GET /people
   def index
     @people = Person.all
-
-    puts @people.to_json
     render json: @people.to_json
   end
 
