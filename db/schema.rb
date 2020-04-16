@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_06_193101) do
+ActiveRecord::Schema.define(version: 2020_04_15_162553) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.text "address"
+    t.string "city"
+    t.string "state"
+    t.string "zip_code"
+    t.string "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "contact_infos", force: :cascade do |t|
     t.integer "person_id"
@@ -32,6 +42,7 @@ ActiveRecord::Schema.define(version: 2020_04_06_193101) do
     t.boolean "is_agent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "address_id"
   end
 
 end
