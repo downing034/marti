@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default class TableRow extends React.Component {

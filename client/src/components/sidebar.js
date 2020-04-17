@@ -48,7 +48,7 @@ function renderHomeIcon(expanded) {
       <img
         id={expanded ? "home-link-expanded" : "home-link-collapsed"}
         src={RedLogo}
-        title="Home"
+        alt="Home"
       />
     )
   } else {
@@ -57,7 +57,7 @@ function renderHomeIcon(expanded) {
         icon={faHome}
         size="2x"
         color="#FD2937"
-        title="Addresses"
+        title="Home"
       />
     )
   }

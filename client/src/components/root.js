@@ -34,7 +34,7 @@ export default class Root extends React.Component {
     const { sidebarExpanded } = this.state;
 
     if (!addressesLoaded) { return ( <Loader /> ) }
-    console.log('prop', this.props)
+
     return (
       <div>
         <button
