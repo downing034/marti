@@ -1,0 +1,13 @@
+tbody tr td a {
+  text-decoration: none;
+  color: #212529;
+}
+
+tbody tr td:hover {
+  cursor: pointer;
+}
+
+tbody tr td a:hover {
+  text-decoration: none;
+  color: #212529;
+}
