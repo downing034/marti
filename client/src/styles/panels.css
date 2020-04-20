@@ -5,3 +5,20 @@
 .card-header {
   height: 60px; /* set to just larger than the button */
 }
+
+.panel-spacing-bottom {
+  margin-bottom: 30px;
+}
+
+.panel-spacing-top {
+  margin-top: 20px;
+}
+
+.person-name {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.person-name svg {
+  margin-right: 10px;
+}

@@ -27,3 +27,19 @@
   margin-left: 75px;
   position: fixed;
 }
+
+
+.orange {
+  color: #FFFFFF;
+  background-color: #FF6347;
+}
+
+.blue {
+  color: #FFFFFF;
+  background-color: #1E90FF;
+}
+
+.purple {
+  color: #FFFFFF;
+  background-color: #8A2BE2;
+}
