@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_162553) do
+ActiveRecord::Schema.define(version: 2020_04_20_164105) do
 
   create_table "addresses", force: :cascade do |t|
     t.text "address"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2020_04_15_162553) do
     t.string "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "deleted_entity"
+    t.boolean "completed", default: false
   end
 
   create_table "contact_infos", force: :cascade do |t|

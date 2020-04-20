@@ -22,6 +22,24 @@ cds_wings = Address.create(
   country: 'US'
 )
 
+supatra = Address.create(
+  address: '967 7th St. W',
+  city: 'Saint Paul',
+  state: 'MN',
+  zip_code: '55102',
+  country: 'US',
+  deleted_entity: 'address'
+)
+
+day_by_day = Address.create(
+  address: '477 7th St. W',
+  city: 'Saint Paul',
+  state: 'MN',
+  zip_code: '55102',
+  country: 'US',
+  completed: true
+)
+
 paul = Person.create(
   first_name: 'Paul',
   last_name: 'Downing',
