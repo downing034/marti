@@ -4,17 +4,28 @@ import { Field, reduxForm } from 'redux-form';
 import { GROUPED_LOCATIONS } from '../../constants/state-list';
 import { COUNTRY_LOCATIONS } from '../../constants/country-list';
 
-// import PreferencesFormFields from './preferences-form-fields';
-// import BottomButtons from '../bottom-buttons';
+import BottomButtons from '../common/form/bottom-buttons';
 
 
 class AddressInformationForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.onReset = this.onReset.bind(this)
+  }
 
   onSubmit = values => {
-    const { submitAddressForm, dirty } = this.props;
+    const { submitAddressForm, dirty, handleFormAction } = this.props;
     if (dirty) {
-      return submitAddressForm(values);
+      return submitAddressForm(values).then(() => {
+        handleFormAction();
+      });
     }
+  }
+
+  onReset() {
+    const { handleFormAction, reset } = this.props;
+    handleFormAction()
+    reset()
   }
 
   getOptions(locationGroup) {
@@ -25,7 +36,6 @@ class AddressInformationForm extends React.Component {
 
   render() {
     const { handleSubmit, submitting, reset } = this.props;
-    console.log(this.props)
     return (
       <form className="form-group" id="address-information" onSubmit={handleSubmit(this.onSubmit)} noValidate>
         <div className="row">
@@ -113,7 +123,7 @@ class AddressInformationForm extends React.Component {
               className="form-control"
             >
               <option />
-              <option value="United States">United States</option>
+              <option value="US">United States</option>
               <optgroup>
                 {this.getOptions(COUNTRY_LOCATIONS)}
               </optgroup>
@@ -122,11 +132,7 @@ class AddressInformationForm extends React.Component {
         </div>
         <br/>
 
-
-
-
-
-        { /*<BottomButtons id="preferences-buttons" submitting={submitting} onCancel={reset} onSubmit={this.handleSubmit} >*/}
+        <BottomButtons id="preferences-buttons" submitting={submitting} onCancel={this.onReset} onSubmit={this.handleSubmit} />
       </form>
     );
   }

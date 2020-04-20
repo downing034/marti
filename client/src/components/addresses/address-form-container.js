@@ -14,7 +14,8 @@ export const mapStateToProps = (state, ownProps) => {
   const initialValues = address ? { ...address } : {}
   return {
     initialValues: initialValues,
-    address
+    address,
+    handleFormAction: ownProps.handleFormAction
   };
 };
 

@@ -33,7 +33,7 @@ export default class Root extends React.Component {
     const { addressesLoaded } = this.props;
     const { sidebarExpanded } = this.state;
 
-    if (!addressesLoaded) { return ( <Loader /> ) }
+    if (!addressesLoaded) { return ( <Loader size="10x" color="#FD2937" /> ) }
 
     return (
       <div>
@@ -45,6 +45,7 @@ export default class Root extends React.Component {
         <Sidebar expanded={sidebarExpanded} />
 
         <div className={`main container ${sidebarExpanded ? "main-expanded": "main-collapsed"}`}>
+
           <Switch>
             <Route path="/" exact component={AddressContainer} />
             <Route exact path="/addresses" component={AddressContainer} />

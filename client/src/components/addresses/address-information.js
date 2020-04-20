@@ -3,6 +3,7 @@ import Panel from '../common/panels/panel';
 import PanelHeader from '../common/panels/panel-header';
 import PanelBody from '../common/panels/panel-body';
 import AddressFormContainer from './address-form-container';
+import { formatCountry } from '../../utils/view-utils';
 
 export default class AddressInformation extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export default class AddressInformation extends React.Component {
       editing: false
     }
     this.handleEditClick = this.handleEditClick.bind(this)
+    this.handleFormAction = this.handleFormAction.bind(this)
     this.renderAddressForm = this.renderAddressForm.bind(this)
     this.renderViewOnlyAddress = this.renderViewOnlyAddress.bind(this)
   }
@@ -40,8 +42,12 @@ export default class AddressInformation extends React.Component {
     this.setState({ editing: true })
   }
 
+  handleFormAction() {
+    this.setState({ editing: false })
+  }
+
   renderAddressForm(addressId) {
-    return ( <AddressFormContainer addressId={addressId}/> )
+    return ( <AddressFormContainer addressId={addressId}  handleFormAction={this.handleFormAction}/> )
   }
 
   renderViewOnlyAddress() {
@@ -128,7 +134,7 @@ export default class AddressInformation extends React.Component {
               type="text"
               className="form-control"
               disabled
-              value={address.country}
+              value={formatCountry(address.country)}
             />
           </div>
         </div>

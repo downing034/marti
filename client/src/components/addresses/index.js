@@ -6,6 +6,8 @@ import TableBody from '../common/tables/table-body';
 import TableRow from '../common/tables/table-row';
 import Td from '../common/tables/table-data';
 
+import { formatCountry } from '../../utils/view-utils';
+
 import '../../styles/table-styles.css';
 
 export default class AddressContainer extends React.Component {
@@ -48,7 +50,7 @@ export default class AddressContainer extends React.Component {
           <Td classes="text-center">{address.city}</Td>
           <Td classes="text-center">{address.state}</Td>
           <Td classes="text-center">{address.zipCode}</Td>
-          <Td classes="text-center">{address.country}</Td>
+          <Td classes="text-center">{formatCountry(address.country)}</Td>
         </TableRow>
       )
     })

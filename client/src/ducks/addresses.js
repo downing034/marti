@@ -1,6 +1,7 @@
 // import the api calls here
 import axios from 'axios';
 import * as camelcaseKeys from 'camelcase-keys';
+import * as snakecaseKeys from 'snakecase-keys';
 // import { SubmissionError } from 'redux-form';
 
 // selectors
@@ -9,6 +10,8 @@ import * as camelcaseKeys from 'camelcase-keys';
 // Actions
 export const RECEIVE_ADDRESSES_STARTED = 'RECEIVE_ADDRESSES_STARTED';
 export const RECEIVE_ADDRESSES = 'RECEIVE_ADDRESSES';
+export const UPDATE_ADDRESS_INFORMATION_STARTED = 'UPDATE_ADDRESS_INFORMATION_STARTED';
+export const UPDATE_ADDRESS_INFORMATION = 'UPDATE_ADDRESS_INFORMATION';
 export const ADDRESSES_ERROR = 'ADDRESSES_ERROR';
 
 // Reducer
@@ -26,6 +29,12 @@ export default function reducer(state = initialState, action) {
         addresses: action.data,
         addressesLoaded: true
       }
+
+    case 'UPDATE_ADDRESS_INFORMATION':
+      const existingAddressIndex = state.addresses.findIndex(address => address.id === action.data.id);
+      let newState = {...state};
+      newState.addresses[existingAddressIndex] = action.data;
+      return newState;
     case 'ADDRESSES_ERROR':
       return {
         ...state,
@@ -45,6 +54,14 @@ export const receiveAddressesStarted = () => {
 export const receiveAddresses = (data) => {
   return { type: RECEIVE_ADDRESSES, data };
 };
+
+export const updateAddressInformationStarted = () => {
+  return { type: UPDATE_ADDRESS_INFORMATION_STARTED }
+}
+
+export const updateAddressInformation = (data) => {
+  return { type: UPDATE_ADDRESS_INFORMATION, data }
+}
 
 export const addressesError = (data) => {
   return { type: ADDRESSES_ERROR, data };
@@ -76,6 +93,15 @@ export function getAddress(addressId) {
 }
 
 export function submitAddressForm(addressData) {
-  console.log('foobar')
+  if (addressData.id) {
+    return dispatch => {
+      dispatch(updateAddressInformationStarted())
+      return axios.patch(`/api/addresses/${addressData.id}`, { address: snakecaseKeys(addressData) }).then((res) => {
+        return dispatch(updateAddressInformation(camelcaseKeys(res.data)))
+      })
+      .catch(error => {
+        return dispatch(addressesError(error));
+      });
+    }
+  }
 }
-
