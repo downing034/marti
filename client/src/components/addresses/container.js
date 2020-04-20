@@ -5,9 +5,9 @@ import AddressIndexComponent from './index';
 import { getAddresses } from '../../ducks/addresses';
 
 // selectors
-import { addresses } from '../../selectors/addresses';
+import { activeAddresses } from '../../selectors/addresses';
 
-export const mapStateToProps = state => ({ addresses: addresses(state) });
+export const mapStateToProps = state => ({ activeAddresses: activeAddresses(state) });
 
 export const mapDispatchToProps = { getAddresses };
 

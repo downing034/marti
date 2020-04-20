@@ -2,6 +2,7 @@
 import axios from 'axios';
 import * as camelcaseKeys from 'camelcase-keys';
 import * as snakecaseKeys from 'snakecase-keys';
+import { filter } from 'lodash';
 // import { SubmissionError } from 'redux-form';
 
 
@@ -15,7 +16,12 @@ export const SUBMIT_NEW_ADDRESS_STARTED = 'SUBMIT_NEW_ADDRESS_STARTED';
 export const ADDRESSES_ERROR = 'ADDRESSES_ERROR';
 
 // Reducer
-const initialState = { addresses: [], addressesLoaded: false };
+const initialState = {
+  addresses: [],
+  activeAddresses: [],
+  addressesLoaded: false,
+  deletedAddresses: []
+};
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -27,6 +33,9 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         addresses: action.data,
+        activeAddresses: filter(action.data, add => add.deletedEntity == null && !add.completed),
+        deletedAddresses: filter(action.data, add => add.deletedEntity === 'address' && !add.completed),
+        completedAddresses: filter(action.data, add => add.completed && add.deletedEntity !== 'address'),
         addressesLoaded: true
       }
     case 'UPDATE_ADDRESS_INFORMATION':
@@ -140,4 +149,58 @@ export function deleteAddress(addressId) {
       return dispatch(addressesError(error));
     });
   };
+}
+
+export function softDeleteAddress(addressId) {
+  const softDeleteData = { address: snakecaseKeys({ id: addressId, deletedEntity: 'address' }) }
+  return dispatch => {
+    dispatch(updateAddressInformationStarted())
+    return axios.patch(`/api/addresses/${addressId}`, softDeleteData).then((res) => {
+      return dispatch(getAddresses())
+    })
+    .catch(error => {
+      return dispatch(addressesError(error));
+    });
+  }
+}
+
+export function restoreAddress(addressId) {
+  const restoreData = { address: snakecaseKeys({ id: addressId, deletedEntity: null }) }
+  return dispatch => {
+    dispatch(updateAddressInformationStarted())
+    return axios.patch(`/api/addresses/${addressId}`, restoreData).then((res) => {
+      return dispatch(getAddresses())
+    })
+    .catch(error => {
+      return dispatch(addressesError(error));
+    });
+  }
+}
+
+export function reactivateAddress(addressId) {
+  const reactivateData = {
+    address: snakecaseKeys({ id: addressId, deletedEntity: null, completed: false })
+  }
+  return dispatch => {
+    dispatch(updateAddressInformationStarted())
+    return axios.patch(`/api/addresses/${addressId}`, reactivateData).then((res) => {
+      return dispatch(getAddresses())
+    })
+    .catch(error => {
+      return dispatch(addressesError(error));
+    });
+  }
+}
+
+export function completeAddress(addressId) {
+  const completedData = { address: snakecaseKeys({ id: addressId, completed: true }) }
+  return dispatch => {
+    dispatch(updateAddressInformationStarted())
+    return axios.patch(`/api/addresses/${addressId}`, completedData).then((res) => {
+      return dispatch(getAddresses())
+    })
+    .catch(error => {
+      return dispatch(addressesError(error));
+    });
+  }
 }

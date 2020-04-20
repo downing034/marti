@@ -5,6 +5,7 @@ import TableHeader from '../common/tables/table-header';
 import TableBody from '../common/tables/table-body';
 import TableRow from '../common/tables/table-row';
 import Td from '../common/tables/table-data';
+import EmptyRow from '../common/tables/empty-row';
 import NewAddressFormContainer from './new-address/new-address-form-container';
 import Modal from '../common/modal';
 
@@ -31,7 +32,7 @@ export default class AddresssIndex extends React.Component {
   }
 
   render() {
-    const { addresses } = this.props;
+    const { activeAddresses } = this.props;
     const headers = [
       { name: 'Address' },
       { name: 'City', classes: 'text-center' },
@@ -40,8 +41,8 @@ export default class AddresssIndex extends React.Component {
       { name: 'Country', classes: 'text-center' }
     ]
 
-    const tableRows = Array.isArray(addresses) && addresses.length ?
-      this.renderAddresses(addresses) : this.renderEmptyRow()
+    const tableRows = Array.isArray(activeAddresses) && activeAddresses.length ?
+      this.renderAddresses(activeAddresses) : this.renderEmptyRow()
 
     return (
       <div>
@@ -93,7 +94,7 @@ export default class AddresssIndex extends React.Component {
 
   renderEmptyRow() {
     return (
-      <Td classes="text-center">You currently have no addresses.</Td>
+      <EmptyRow colspan="5" classes="text-center" rowText="You currently have no active addresses."/>
     )
   }
 }
@@ -101,7 +102,7 @@ export default class AddresssIndex extends React.Component {
 AddresssIndex.displayName = 'AddresssIndex';
 
 AddresssIndex.propTypes = {
-  addresses: PropTypes.arrayOf(
+  activeAddresses: PropTypes.arrayOf(
     PropTypes.shape({
       address: PropTypes.string.isRequired,
       city: PropTypes.string.isRequired,

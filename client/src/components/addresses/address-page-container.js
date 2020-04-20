@@ -5,13 +5,13 @@ import AddressPageComponent from './address-page';
 import { findAddress, addresses } from '../../selectors/addresses';
 
 // ducks
-import { deleteAddress } from '../../ducks/addresses';
+import { softDeleteAddress, completeAddress } from '../../ducks/addresses';
 
 export const mapStateToProps = (state, ownProps) => {
   const addressId = parseInt(ownProps.match.params.addressId)
   return { address: findAddress(addresses(state), addressId) || {} };
 };
 
-export const mapDispatchToProps = { deleteAddress }
+export const mapDispatchToProps = { softDeleteAddress, completeAddress }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressPageComponent);
