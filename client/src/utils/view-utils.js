@@ -13,3 +13,7 @@ export function formatState(stateCode) {
   const combinedList = { ...states, ...territories, ...provinces }
   return combinedList[stateCode]
 }
+
+export function formattedAddress(address) {
+  return `${address.address}, ${address.city}, ${address.state}, ${address.zipCode}, ${address.country}`
+}
