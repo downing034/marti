@@ -6,10 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function BottomButtons(props) {
-  const { submitting, onCancel, onSubmit, id } = props;
+  const { submitting, onCancel, onSubmit, id, isDirty } = props;
+
+  const buttonClass = isDirty ? 'btn-success' : 'btn-secondary'
   return (
     <div id={id} className="bottom-buttons float-right">
-      <button className="btn btn-success submit-button" type="submit" disabled={submitting} onClick={onSubmit}>
+      <button className={`btn ${buttonClass} submit-button`} type="submit" disabled={submitting || !isDirty} onClick={onSubmit}>
         {!submitting && <FontAwesomeIcon
           icon={faCheck}
           size="1x"
@@ -33,8 +35,9 @@ export default function BottomButtons(props) {
 BottomButtons.displayName = 'BottomButtons';
 
 BottomButtons.propTypes = {
-  submitting: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  id: PropTypes.string
+  submitting: PropTypes.bool,
+  onCancel: PropTypes.func,
+  onSubmit: PropTypes.func,
+  id: PropTypes.string,
+  isDirty: PropTypes.bool
 }

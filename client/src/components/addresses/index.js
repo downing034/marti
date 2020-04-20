@@ -5,12 +5,30 @@ import TableHeader from '../common/tables/table-header';
 import TableBody from '../common/tables/table-body';
 import TableRow from '../common/tables/table-row';
 import Td from '../common/tables/table-data';
+import NewAddressFormContainer from './new-address/new-address-form-container';
+import Modal from '../common/modal';
 
 import { formatCountry } from '../../utils/view-utils';
 
 import '../../styles/table-styles.css';
 
-export default class AddressContainer extends React.Component {
+export default class AddresssIndex extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showModal: false
+    }
+    this.showCreateModal = this.showCreateModal.bind(this)
+    this.hideCreateModal = this.hideCreateModal.bind(this)
+  }
+
+  showCreateModal() {
+    this.setState({ showModal: true })
+  }
+
+  hideCreateModal() {
+    this.setState({ showModal: false })
+  }
 
   render() {
     const { addresses } = this.props;
@@ -27,6 +45,21 @@ export default class AddressContainer extends React.Component {
 
     return (
       <div>
+        <button
+          onClick={this.showCreateModal}
+          className="btn btn-success float-right create-button"
+        >
+          Create New Address
+        </button>
+
+        <Modal
+          show={this.state.showModal}
+          handleClose={this.hideCreateModal}
+          modalTitle="Create Address"
+        >
+          <NewAddressFormContainer handleFormAction={this.hideCreateModal} />
+        </Modal>
+
         <Table>
           <TableHeader headers={headers} />
           <TableBody>
@@ -65,9 +98,9 @@ export default class AddressContainer extends React.Component {
   }
 }
 
-AddressContainer.displayName = 'AddressContainer';
+AddresssIndex.displayName = 'AddresssIndex';
 
-AddressContainer.propTypes = {
+AddresssIndex.propTypes = {
   addresses: PropTypes.arrayOf(
     PropTypes.shape({
       address: PropTypes.string.isRequired,

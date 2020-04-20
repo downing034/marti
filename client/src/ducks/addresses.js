@@ -4,8 +4,6 @@ import * as camelcaseKeys from 'camelcase-keys';
 import * as snakecaseKeys from 'snakecase-keys';
 // import { SubmissionError } from 'redux-form';
 
-// selectors
-// import { findPrimaryByPerson, getContactInfos } from '../selectors/addresses';
 
 // Actions
 export const RECEIVE_ADDRESSES_STARTED = 'RECEIVE_ADDRESSES_STARTED';
@@ -13,6 +11,7 @@ export const RECEIVE_ADDRESSES = 'RECEIVE_ADDRESSES';
 export const UPDATE_ADDRESS_INFORMATION_STARTED = 'UPDATE_ADDRESS_INFORMATION_STARTED';
 export const UPDATE_ADDRESS_INFORMATION = 'UPDATE_ADDRESS_INFORMATION';
 export const DELETE_ADDRESS_STARTED = 'DELETE_ADDRESS_STARTED';
+export const SUBMIT_NEW_ADDRESS_STARTED = 'SUBMIT_NEW_ADDRESS_STARTED';
 export const ADDRESSES_ERROR = 'ADDRESSES_ERROR';
 
 // Reducer
@@ -72,6 +71,10 @@ export const deleteAddressStarted = () => {
   return { type: DELETE_ADDRESS_STARTED }
 }
 
+export const submitNewAddressStarted = () => {
+  return { type: SUBMIT_NEW_ADDRESS_STARTED }
+}
+
 export const addressesError = (data) => {
   return { type: ADDRESSES_ERROR, data };
 };
@@ -102,11 +105,23 @@ export function getAddress(addressId) {
 }
 
 export function submitAddressForm(addressData) {
+  // editing an existing address
   if (addressData.id) {
     return dispatch => {
       dispatch(updateAddressInformationStarted())
       return axios.patch(`/api/addresses/${addressData.id}`, { address: snakecaseKeys(addressData) }).then((res) => {
         return dispatch(updateAddressInformation(camelcaseKeys(res.data)))
+      })
+      .catch(error => {
+        return dispatch(addressesError(error));
+      });
+    }
+  } else {
+    // for new addresses
+    return dispatch => {
+      dispatch(submitNewAddressStarted())
+      return axios.post('/api/addresses', { address: snakecaseKeys(addressData) }).then((res) => {
+        return dispatch(getAddresses())
       })
       .catch(error => {
         return dispatch(addressesError(error));

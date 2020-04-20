@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import AddressInformationFormComponent from './address-form';
+import AddressEditFormComponent from './address-edit-form';
 
 // ducks
-import { submitAddressForm } from '../../ducks/addresses';
+import { submitAddressForm } from '../../../ducks/addresses';
 
 // selectors
-import { findAddress, addresses } from '../../selectors/addresses';
+import { findAddress, addresses } from '../../../selectors/addresses';
 
 export const mapStateToProps = (state, ownProps) => {
   const addressId = parseInt(ownProps.addressId)
@@ -21,4 +21,4 @@ export const mapStateToProps = (state, ownProps) => {
 
 export const mapDispatchToProps = { submitAddressForm };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddressInformationFormComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(AddressEditFormComponent);

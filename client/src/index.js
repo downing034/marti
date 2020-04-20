@@ -13,12 +13,10 @@ import RootContainer from './components/root-container';
 const store = configureStore();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store} >
-      <Router>
-        <RootContainer />
-      </Router>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store} >
+    <Router>
+      <RootContainer />
+    </Router>
+  </Provider>,
   document.getElementById('root')
 );

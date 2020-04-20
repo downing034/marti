@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AddressInformation from './address-information';
+import AddressInformation from './address-information/address-information';
 import '../../styles/buttons.css'
 
 export default class AddressPage extends React.Component {
