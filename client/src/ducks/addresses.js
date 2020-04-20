@@ -12,6 +12,7 @@ export const RECEIVE_ADDRESSES_STARTED = 'RECEIVE_ADDRESSES_STARTED';
 export const RECEIVE_ADDRESSES = 'RECEIVE_ADDRESSES';
 export const UPDATE_ADDRESS_INFORMATION_STARTED = 'UPDATE_ADDRESS_INFORMATION_STARTED';
 export const UPDATE_ADDRESS_INFORMATION = 'UPDATE_ADDRESS_INFORMATION';
+export const DELETE_ADDRESS_STARTED = 'DELETE_ADDRESS_STARTED';
 export const ADDRESSES_ERROR = 'ADDRESSES_ERROR';
 
 // Reducer
@@ -29,12 +30,16 @@ export default function reducer(state = initialState, action) {
         addresses: action.data,
         addressesLoaded: true
       }
-
     case 'UPDATE_ADDRESS_INFORMATION':
       const existingAddressIndex = state.addresses.findIndex(address => address.id === action.data.id);
       let newState = {...state};
       newState.addresses[existingAddressIndex] = action.data;
       return newState;
+    case 'DELETE_ADDRESS_STARTED':
+      return {
+        ...state,
+        addressesLoaded: false
+      }
     case 'ADDRESSES_ERROR':
       return {
         ...state,
@@ -61,6 +66,10 @@ export const updateAddressInformationStarted = () => {
 
 export const updateAddressInformation = (data) => {
   return { type: UPDATE_ADDRESS_INFORMATION, data }
+}
+
+export const deleteAddressStarted = () => {
+  return { type: DELETE_ADDRESS_STARTED }
 }
 
 export const addressesError = (data) => {
@@ -104,4 +113,16 @@ export function submitAddressForm(addressData) {
       });
     }
   }
+}
+
+export function deleteAddress(addressId) {
+  return dispatch => {
+    dispatch(deleteAddressStarted());
+    return axios.delete(`/api/addresses/${addressId}`).then(() => {
+      return dispatch(getAddresses())
+    })
+    .catch(error => {
+      return dispatch(addressesError(error));
+    });
+  };
 }

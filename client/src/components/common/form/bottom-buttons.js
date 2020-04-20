@@ -29,3 +29,12 @@ export default function BottomButtons(props) {
     </div>
   );
 }
+
+BottomButtons.displayName = 'BottomButtons';
+
+BottomButtons.propTypes = {
+  submitting: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  id: PropTypes.string
+}

@@ -13,7 +13,6 @@ import '../../styles/table-styles.css';
 export default class AddressContainer extends React.Component {
 
   render() {
-    console.log(this.props)
     const { addresses } = this.props;
     const headers = [
       { name: 'Address' },
@@ -23,12 +22,15 @@ export default class AddressContainer extends React.Component {
       { name: 'Country', classes: 'text-center' }
     ]
 
+    const tableRows = Array.isArray(addresses) && addresses.length ?
+      this.renderAddresses(addresses) : this.renderEmptyRow()
+
     return (
       <div>
         <Table>
           <TableHeader headers={headers} />
           <TableBody>
-            {this.renderAddresses(addresses)}
+            {tableRows}
           </TableBody>
         </Table>
       </div>
@@ -54,6 +56,12 @@ export default class AddressContainer extends React.Component {
         </TableRow>
       )
     })
+  }
+
+  renderEmptyRow() {
+    return (
+      <Td classes="text-center">You currently have no addresses.</Td>
+    )
   }
 }
 
