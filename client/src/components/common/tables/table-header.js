@@ -9,7 +9,7 @@ export default class TableHeader extends React.Component {
     const { headers } = this.props;
     return (
       <thead className="thead-dark">
-        <TableRow>
+        <TableRow clickable={false}>
           {this.renderHeaders(headers)}
         </TableRow>
       </thead>
@@ -26,5 +26,8 @@ export default class TableHeader extends React.Component {
 TableHeader.displayName = 'TableHeader';
 
 TableHeader.propTypes = {
-  headers: PropTypes.array.isRequired
+  headers: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    classes: PropTypes.string,
+  })).isRequired,
 }

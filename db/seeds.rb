@@ -3,7 +3,7 @@ bad_weather = Address.create(
   city: 'Saint Paul',
   state: 'MN',
   zip_code: '55102',
-  country: 'United States'
+  country: 'US'
 )
 
 stanleys = Address.create(
@@ -11,7 +11,7 @@ stanleys = Address.create(
   city: 'Minneapolis',
   state: 'MN',
   zip_code: '55418',
-  country: 'United States'
+  country: 'US'
 )
 
 cds_wings = Address.create(
@@ -19,7 +19,7 @@ cds_wings = Address.create(
   city: 'Westminster',
   state: 'CO',
   zip_code: '80005',
-  country: 'United States'
+  country: 'US'
 )
 
 paul = Person.create(

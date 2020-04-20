@@ -1,0 +1,7 @@
+.full-width {
+  width: 100%
+}
+
+.card-header {
+  height: 60px; /* set to just larger than the button */
+}

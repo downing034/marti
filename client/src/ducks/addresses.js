@@ -1,14 +1,17 @@
 // import the api calls here
 import axios from 'axios';
 import * as camelcaseKeys from 'camelcase-keys';
+import * as snakecaseKeys from 'snakecase-keys';
 // import { SubmissionError } from 'redux-form';
 
-// selectors
-// import { findPrimaryByPerson, getContactInfos } from '../selectors/addresses';
 
 // Actions
 export const RECEIVE_ADDRESSES_STARTED = 'RECEIVE_ADDRESSES_STARTED';
 export const RECEIVE_ADDRESSES = 'RECEIVE_ADDRESSES';
+export const UPDATE_ADDRESS_INFORMATION_STARTED = 'UPDATE_ADDRESS_INFORMATION_STARTED';
+export const UPDATE_ADDRESS_INFORMATION = 'UPDATE_ADDRESS_INFORMATION';
+export const DELETE_ADDRESS_STARTED = 'DELETE_ADDRESS_STARTED';
+export const SUBMIT_NEW_ADDRESS_STARTED = 'SUBMIT_NEW_ADDRESS_STARTED';
 export const ADDRESSES_ERROR = 'ADDRESSES_ERROR';
 
 // Reducer
@@ -25,6 +28,16 @@ export default function reducer(state = initialState, action) {
         ...state,
         addresses: action.data,
         addressesLoaded: true
+      }
+    case 'UPDATE_ADDRESS_INFORMATION':
+      const existingAddressIndex = state.addresses.findIndex(address => address.id === action.data.id);
+      let newState = {...state};
+      newState.addresses[existingAddressIndex] = action.data;
+      return newState;
+    case 'DELETE_ADDRESS_STARTED':
+      return {
+        ...state,
+        addressesLoaded: false
       }
     case 'ADDRESSES_ERROR':
       return {
@@ -46,12 +59,28 @@ export const receiveAddresses = (data) => {
   return { type: RECEIVE_ADDRESSES, data };
 };
 
+export const updateAddressInformationStarted = () => {
+  return { type: UPDATE_ADDRESS_INFORMATION_STARTED }
+}
+
+export const updateAddressInformation = (data) => {
+  return { type: UPDATE_ADDRESS_INFORMATION, data }
+}
+
+export const deleteAddressStarted = () => {
+  return { type: DELETE_ADDRESS_STARTED }
+}
+
+export const submitNewAddressStarted = () => {
+  return { type: SUBMIT_NEW_ADDRESS_STARTED }
+}
+
 export const addressesError = (data) => {
   return { type: ADDRESSES_ERROR, data };
 };
 
 // services
-export function loadAddresses() {
+export function getAddresses() {
   return dispatch => {
     dispatch(receiveAddressesStarted());
     return axios.get('/api/addresses').then(res => {
@@ -63,3 +92,52 @@ export function loadAddresses() {
   };
 };
 
+export function getAddress(addressId) {
+  return dispatch => {
+    dispatch(receiveAddressesStarted());
+    return axios.get(`/api/addresses/${addressId}`).then(res => {
+      return dispatch(receiveAddresses(camelcaseKeys(res.data)));
+    })
+    .catch(error => {
+      return dispatch(addressesError(error));
+    });
+  };
+}
+
+export function submitAddressForm(addressData) {
+  // editing an existing address
+  if (addressData.id) {
+    return dispatch => {
+      dispatch(updateAddressInformationStarted())
+      return axios.patch(`/api/addresses/${addressData.id}`, { address: snakecaseKeys(addressData) }).then((res) => {
+        return dispatch(updateAddressInformation(camelcaseKeys(res.data)))
+      })
+      .catch(error => {
+        return dispatch(addressesError(error));
+      });
+    }
+  } else {
+    // for new addresses
+    return dispatch => {
+      dispatch(submitNewAddressStarted())
+      return axios.post('/api/addresses', { address: snakecaseKeys(addressData) }).then((res) => {
+        return dispatch(getAddresses())
+      })
+      .catch(error => {
+        return dispatch(addressesError(error));
+      });
+    }
+  }
+}
+
+export function deleteAddress(addressId) {
+  return dispatch => {
+    dispatch(deleteAddressStarted());
+    return axios.delete(`/api/addresses/${addressId}`).then(() => {
+      return dispatch(getAddresses())
+    })
+    .catch(error => {
+      return dispatch(addressesError(error));
+    });
+  };
+}
