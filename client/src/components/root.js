@@ -5,6 +5,8 @@ import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-s
 
 import AddressContainer from './addresses/container';
 import AddressPageContainer from './addresses/address-page-container';
+import TrashContainer from './trash/container';
+import ReportsContainer from './reports/container';
 import NotFound from './common/not-found';
 import Loader from './common/loader';
 import Sidebar from './sidebar';
@@ -50,6 +52,8 @@ export default class Root extends React.Component {
             <Route path="/" exact component={AddressContainer} />
             <Route exact path="/addresses" component={AddressContainer} />
             <Route exact path="/addresses/:addressId" component={AddressPageContainer} />
+            <Route exact path="/trash" component={TrashContainer} />
+            <Route exact path="/reports" component={ReportsContainer} />
             <Route component={NotFound} />
           </Switch>
         </div>

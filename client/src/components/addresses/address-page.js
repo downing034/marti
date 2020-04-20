@@ -5,9 +5,17 @@ import '../../styles/buttons.css'
 
 export default class AddressPage extends React.Component {
   handleAddressDelete(addressId) {
-    const { history, deleteAddress } = this.props;
+    const { history, softDeleteAddress } = this.props;
 
-    return deleteAddress(addressId).then(() => {
+    return softDeleteAddress(addressId).then(() => {
+      history.push('/addresses')
+    })
+  }
+
+  handleAddressComplete(addressId) {
+    const { history, completeAddress } = this.props;
+
+    return completeAddress(addressId).then(() => {
       history.push('/addresses')
     })
   }
@@ -19,14 +27,16 @@ export default class AddressPage extends React.Component {
         <AddressInformation address={address} />
 
         <button
+          className="btn btn-warning float-left complete-button"
+          onClick={() => { if (window.confirm('Are you sure you want to complete this address.')) this.handleAddressComplete(address.id) } }
+        >Complete Address</button>
+        <button
           className="btn btn-danger float-right delete-button"
-          onClick={() => { if (window.confirm('Are you sure you wish to delete this address?')) this.handleAddressDelete(address.id) } }
+          onClick={() => { if (window.confirm('Deleting this address will move it to the Trash bin. To completely remove it from the system, delete it here and from the trash bin.')) this.handleAddressDelete(address.id) } }
         >Delete Address</button>
       </div>
     )
   }
-
-
 };
 
 AddressPage.displayName = 'AddressPage';

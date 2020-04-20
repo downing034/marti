@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faBuilding, faUser } from '@fortawesome/free-solid-svg-icons'
+import {
+  faHome,
+  faBuilding,
+  faUser,
+  faChartLine,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons'
 import RedLogo from '../images/logos/marti-logo-red.png';
 import '../styles/sidebar-nav.css';
 
@@ -37,6 +43,30 @@ export default function Sidebar({ expanded, toggleSidebar }) {
           />
         </span>
         {expanded && <span className="nav-text"> People</span>}
+      </Link>
+
+      <Link to="/reports">
+        <span className="align-middle">
+          <FontAwesomeIcon
+            icon={faChartLine}
+            size={iconSize}
+            color="#FD2937"
+            title="Reports"
+          />
+        </span>
+        {expanded && <span className="nav-text"> Reports</span>}
+      </Link>
+
+      <Link to="/trash">
+        <span className="align-middle">
+          <FontAwesomeIcon
+            icon={faTrash}
+            size={iconSize}
+            color="#FD2937"
+            title="Trash Can"
+          />
+        </span>
+        {expanded && <span className="nav-text"> Trash</span>}
       </Link>
     </div>
   )

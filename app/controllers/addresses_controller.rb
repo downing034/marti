@@ -1,21 +1,17 @@
 class AddressesController < ApiController
   before_action :set_address, only: [:show, :update, :destroy]
 
-  # GET /addresses
   def index
     @addresses = Address.all
     render json: @addresses.to_json
   end
 
-  # GET /addresses/1
   def show
     render json: @address.to_json(include: { people: {} })
   end
 
-  # POST /addresses
   def create
     @address = Address.new(address_params)
-
     if @address.save
       render json: @address, status: :created, location: @address
     else
@@ -23,7 +19,6 @@ class AddressesController < ApiController
     end
   end
 
-  # PATCH/PUT /addresses/1
   def update
     if @address.update(address_params)
       render json: @address
@@ -32,7 +27,6 @@ class AddressesController < ApiController
     end
   end
 
-  # DELETE /addresses/1
   def destroy
     @address.destroy
   end
@@ -45,6 +39,6 @@ class AddressesController < ApiController
 
     # Only allow a trusted parameter "white list" through.
     def address_params
-      params.require(:address).permit(:address, :city, :state, :zip_code, :country)
+      params.require(:address).permit(:address, :city, :state, :zip_code, :country, :deleted_entity, :completed)
     end
 end
