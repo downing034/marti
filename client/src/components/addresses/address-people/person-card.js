@@ -25,8 +25,8 @@ export default class PersonCard extends React.Component {
     const panelColor = this.setPanelColor(personType)
 
     return (
-      <div className="col-md-6 panel-spacing-bottom">
-        <Panel>
+      <div className={`col-md-6 panel-spacing-bottom`}>
+        <Panel classes={`person-card-${panelColor}`}>
           <div className={`card-header container-fluid text-center person-name ${panelColor}`}>
             {this.renderPersonTypeIcon(personType)}
             {fullName(person)}
@@ -75,10 +75,24 @@ export default class PersonCard extends React.Component {
                 {!!contactInfo && !!contactInfo.phone_two ? contactInfo.phone_two : 'No phone entered'}
               </div>
             </div>
+
+            <div className="row text-center">
+              <div className="col-md-10 offset-1">
+                {this.renderPersonNotes(person)}
+              </div>
+            </div>
           </PanelBody>
         </Panel>
       </div>
     )
+  }
+
+  renderPersonNotes(person) {
+    if (person.notes) {
+      return ( person.notes )
+    } else {
+      return (<br />)
+    }
   }
 
   setPanelColor(personType) {

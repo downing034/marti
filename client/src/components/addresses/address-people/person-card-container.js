@@ -12,6 +12,7 @@ export const mapStateToProps = (state, ownProps) => {
       firstName: 'Paul',
       lastName: 'Downing',
       isBuyer: true,
+      notes: "prefers to be contacted via email",
       contactInfos: [
         {
           primaryEmail: 'email@example.com'
