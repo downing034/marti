@@ -1,0 +1,30 @@
+#profile-photo {
+  margin: auto;
+}
+
+.orange {
+  color: #FFFFFF;
+  background-color: #FF6347;
+}
+
+.blue {
+  color: #FFFFFF;
+  background-color: #1E90FF;
+}
+
+.purple {
+  color: #FFFFFF;
+  background-color: #8A2BE2;
+}
+
+.person-card-orange {
+  border: 1px solid #FF6347
+}
+
+.person-card-blue {
+  border: 1px solid #1E90FF
+}
+
+.person-card-purple {
+  border: 1px solid #8A2BE2
+}

@@ -23,7 +23,7 @@ export default class AddressInformation extends React.Component {
     const addressBlock = editing ? this.renderAddressForm(address.id) : this.renderViewOnlyAddress(address)
 
     return (
-      <div className="row">
+      <div className="row panel-spacing">
         <Panel>
           <PanelHeader
             headerText="Address Information"

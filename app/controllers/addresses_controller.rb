@@ -3,7 +3,8 @@ class AddressesController < ApiController
 
   def index
     @addresses = Address.all
-    render json: @addresses.to_json
+    render json: @addresses.to_json(include: { people: { include: { contact_infos: {} } } })
+      # (include: {interaction_outline: {:include=> {:tree_node=> {:include=> :definition}}}, :token_outline=> {:include=> {:tree_node=> {:include=> :definition}}}} )
   end
 
   def show
