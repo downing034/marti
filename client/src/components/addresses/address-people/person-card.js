@@ -1,25 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faShoppingCart,
-  faUserTag,
-  faUserTie
-} from '@fortawesome/free-solid-svg-icons'
+import { renderPersonTypeIcon } from '../../../utils/view-utils';
+
 import ComingSoon from '../../../images/coming-soon.jpeg';
 
 import Panel from '../../common/panels/panel';
 import PanelHeader from '../../common/panels/panel-header';
 import PanelBody from '../../common/panels/panel-body';
 
-import { fullName, setPersonType } from '../../../utils/view-utils';
+import {
+  fullName,
+  setPersonType,
+  renderAgentIcon,
+  renderBuyerIcon,
+  renderSellerIcon
+} from '../../../utils/view-utils';
 
 import '../../../styles/person.css';
 
 export default class PersonCard extends React.Component {
 
   render() {
-    const { person, contactInfo } = this.props;
+    const { person } = this.props;
+    const buyer = person.isBuyer;
+    const seller = person.isSeller;
+    const agent = person.isAgent;
+
     const personType = setPersonType(person)
 
     const panelColor = this.setPanelColor(personType)
@@ -28,7 +34,9 @@ export default class PersonCard extends React.Component {
       <div className={`col-md-6 panel-spacing-bottom`}>
         <Panel classes={`person-card-${panelColor}`}>
           <div className={`card-header container-fluid text-center person-name ${panelColor}`}>
-            {this.renderPersonTypeIcon(personType)}
+            { buyer ? renderBuyerIcon("#FFFFFF") : '' }
+            { seller ? renderSellerIcon("#FFFFFF") : '' }
+            { agent ? renderAgentIcon("#FFFFFF") : '' }
             {fullName(person)}
           </div>
 
@@ -42,7 +50,7 @@ export default class PersonCard extends React.Component {
               </div>
 
               <div className="col-md-5">
-                {!!contactInfo && !!contactInfo.primaryEmail ? contactInfo.primaryEmail : 'No email entered'}
+                {person.primaryEmail ? person.primaryEmail : 'No email entered'}
               </div>
             </div>
 
@@ -52,27 +60,27 @@ export default class PersonCard extends React.Component {
               </div>
 
               <div className="col-md-5">
-                {!!contactInfo && !!contactInfo.secondaryEmail ? contactInfo.secondaryEmail : 'No email entered'}
+                {person.secondaryEmail ? person.secondaryEmail : 'No email entered'}
               </div>
             </div>
 
             <div className="row">
               <div className="col-md-5 offset-1">
-                {`Phone One (${contactInfo.phone_one_label})`}:
+                {`Phone One (${person.phone_one_label})`}:
               </div>
 
               <div className="col-md-5">
-                {!!contactInfo && !!contactInfo.phone_one ? contactInfo.phone_one : 'No phone entered'}
+                {person.phone_one ? person.phone_one : 'No phone entered'}
               </div>
             </div>
 
             <div className="row">
               <div className="col-md-5 offset-1">
-                {`Phone Two (${contactInfo.phone_two_label})`}:
+                {`Phone Two (${person.phone_two_label})`}:
               </div>
 
               <div className="col-md-5">
-                {!!contactInfo && !!contactInfo.phone_two ? contactInfo.phone_two : 'No phone entered'}
+                {person.phone_two ? person.phone_two : 'No phone entered'}
               </div>
             </div>
 
@@ -96,50 +104,21 @@ export default class PersonCard extends React.Component {
   }
 
   setPanelColor(personType) {
-    switch (personType) {
-      case 'Buyer':
-        return 'orange'
-      case 'Seller':
-        return 'blue'
-      case 'Agent':
-        return 'purple'
-      default:
-        return ''
+    if (personType.length > 1) {
+      return 'black';
+    } else {
+      switch (personType[0]) {
+        case 'Buyer':
+          return 'orange'
+        case 'Seller':
+          return 'blue'
+        case 'Agent':
+          return 'purple'
+        default:
+          return ''
+      }
     }
-  }
 
-  renderPersonTypeIcon(personType) {
-    switch (personType) {
-      case 'Buyer':
-        return (
-          <FontAwesomeIcon
-            icon={faShoppingCart}
-            size="1x"
-            color="#FFFFFF"
-            title="Buyer"
-          />
-        )
-      case 'Seller':
-        return (
-          <FontAwesomeIcon
-            icon={faUserTag}
-            size="1x"
-            color="#FFFFFF"
-            title="Seller"
-          />
-        )
-      case 'Agent':
-        return (
-          <FontAwesomeIcon
-            icon={faUserTie}
-            size="1x"
-            color="#FFFFFF"
-            title="Agent"
-          />
-        )
-      default:
-        return null
-    }
   }
 }
 

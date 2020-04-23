@@ -13,11 +13,7 @@ export const mapStateToProps = (state, ownProps) => {
       lastName: 'Downing',
       isBuyer: true,
       notes: "prefers to be contacted via email",
-      contactInfos: [
-        {
-          primaryEmail: 'email@example.com'
-        }
-      ]
+      primaryEmail: 'email@example.com'
     }
 
     const fakePerson2 = {
@@ -25,12 +21,8 @@ export const mapStateToProps = (state, ownProps) => {
       firstName: 'Marti',
       lastName: 'Esty',
       isAgent: true,
-      contactInfos: [
-        {
-          phone_one_label: 'mobile',
-          phone_one: '123-456-0789'
-        }
-      ]
+      phone_one_label: 'mobile',
+      phone_one: '123-456-0789'
     }
 
     const fakePerson3 = {
@@ -45,22 +37,21 @@ export const mapStateToProps = (state, ownProps) => {
       firstName: 'Potato',
       lastName: 'Dog'
     }
-  const people = [fakePerson, fakePerson2, fakePerson3, fakePerson4]
+
+    const fakePerson5 = {
+      id: 5,
+      firstName: 'Cat',
+      lastName: 'Dog',
+      isBuyer: true,
+      isAgent: true
+    }
+
+  const people = [fakePerson, fakePerson2, fakePerson3, fakePerson4, fakePerson5]
 
   const personId = parseInt(ownProps.personId)
   const person = findPerson(people, personId) || {}
 
-  const contactInfo = person.contactInfos ? person.contactInfos[0] : {}
-
-  console.log('pid', personId)
-  console.log('person', person)
-  console.log('contactInfo', contactInfo)
-
-  return {
-    person: person,
-    contactInfo: contactInfo
-    // person: findPerson(people(state), personId) || {}
-  };
+  return { person };
 };
 
 // export const mapDispatchToProps = { softDeleteAddress, completeAddress }

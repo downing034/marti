@@ -1,10 +1,8 @@
-// import the api calls here
 import axios from 'axios';
-import * as camelcaseKeys from 'camelcase-keys';
-import * as snakecaseKeys from 'snakecase-keys';
 import { filter } from 'lodash';
 // import { SubmissionError } from 'redux-form';
 
+import { formatResponseFromApi, formatResponseToApi } from '../utils/api-utils';
 
 // Actions
 export const RECEIVE_ADDRESSES_STARTED = 'RECEIVE_ADDRESSES_STARTED';
@@ -93,7 +91,7 @@ export function getAddresses() {
   return dispatch => {
     dispatch(receiveAddressesStarted());
     return axios.get('/api/addresses').then(res => {
-      return dispatch(receiveAddresses(camelcaseKeys(res.data)));
+      return dispatch(receiveAddresses(formatResponseFromApi(res.data)));
     })
     .catch(error => {
       return dispatch(addressesError(error));
@@ -105,7 +103,7 @@ export function getAddress(addressId) {
   return dispatch => {
     dispatch(receiveAddressesStarted());
     return axios.get(`/api/addresses/${addressId}`).then(res => {
-      return dispatch(receiveAddresses(camelcaseKeys(res.data)));
+      return dispatch(receiveAddresses(formatResponseFromApi(res.data)));
     })
     .catch(error => {
       return dispatch(addressesError(error));
@@ -118,8 +116,8 @@ export function submitAddressForm(addressData) {
   if (addressData.id) {
     return dispatch => {
       dispatch(updateAddressInformationStarted())
-      return axios.patch(`/api/addresses/${addressData.id}`, { address: snakecaseKeys(addressData) }).then((res) => {
-        return dispatch(updateAddressInformation(camelcaseKeys(res.data)))
+      return axios.patch(`/api/addresses/${addressData.id}`, formatResponseToApi('address', addressData)).then((res) => {
+        return dispatch(updateAddressInformation(formatResponseFromApi(res.data)))
       })
       .catch(error => {
         return dispatch(addressesError(error));
@@ -129,7 +127,7 @@ export function submitAddressForm(addressData) {
     // for new addresses
     return dispatch => {
       dispatch(submitNewAddressStarted())
-      return axios.post('/api/addresses', { address: snakecaseKeys(addressData) }).then((res) => {
+      return axios.post('/api/addresses', formatResponseToApi('address', addressData)).then((res) => {
         return dispatch(getAddresses())
       })
       .catch(error => {
@@ -152,7 +150,7 @@ export function deleteAddress(addressId) {
 }
 
 export function softDeleteAddress(addressId) {
-  const softDeleteData = { address: snakecaseKeys({ id: addressId, deletedEntity: 'address' }) }
+  const softDeleteData = formatResponseToApi('address', { id: addressId, deletedEntity: 'address' })
   return dispatch => {
     dispatch(updateAddressInformationStarted())
     return axios.patch(`/api/addresses/${addressId}`, softDeleteData).then((res) => {
@@ -165,7 +163,7 @@ export function softDeleteAddress(addressId) {
 }
 
 export function restoreAddress(addressId) {
-  const restoreData = { address: snakecaseKeys({ id: addressId, deletedEntity: null }) }
+  const restoreData = formatResponseToApi('address', { id: addressId, deletedEntity: null })
   return dispatch => {
     dispatch(updateAddressInformationStarted())
     return axios.patch(`/api/addresses/${addressId}`, restoreData).then((res) => {
@@ -178,9 +176,7 @@ export function restoreAddress(addressId) {
 }
 
 export function reactivateAddress(addressId) {
-  const reactivateData = {
-    address: snakecaseKeys({ id: addressId, deletedEntity: null, completed: false })
-  }
+  const reactivateData = formatResponseToApi('address', { id: addressId, deletedEntity: null, completed: false })
   return dispatch => {
     dispatch(updateAddressInformationStarted())
     return axios.patch(`/api/addresses/${addressId}`, reactivateData).then((res) => {
@@ -193,7 +189,7 @@ export function reactivateAddress(addressId) {
 }
 
 export function completeAddress(addressId) {
-  const completedData = { address: snakecaseKeys({ id: addressId, completed: true }) }
+  const completedData = formatResponseToApi('address', { id: addressId, completed: true })
   return dispatch => {
     dispatch(updateAddressInformationStarted())
     return axios.patch(`/api/addresses/${addressId}`, completedData).then((res) => {

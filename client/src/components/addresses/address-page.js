@@ -24,6 +24,7 @@ export default class AddressPage extends React.Component {
     return (
       <div className="container">
         <AddressInformation address={address} />
+        <br />
         <AddressPeople />
 
         <button

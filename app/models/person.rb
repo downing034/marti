@@ -1,4 +1,3 @@
 class Person < ApplicationRecord
-  has_many :contact_infos
-  belongs_to :address
+  has_and_belongs_to_many :addresses
 end
