@@ -17,6 +17,11 @@
   background-color: #8A2BE2;
 }
 
+.black {
+  color: #FFFFFF;
+  background-color: #000000;
+}
+
 .person-card-orange {
   border: 1px solid #FF6347
 }
@@ -27,4 +32,8 @@
 
 .person-card-purple {
   border: 1px solid #8A2BE2
+}
+
+.person-card-black {
+  border: 1px solid #000000
 }

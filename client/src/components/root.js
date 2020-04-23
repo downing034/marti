@@ -5,9 +5,12 @@ import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-s
 
 import AddressContainer from './addresses/container';
 import AddressPageContainer from './addresses/address-page-container';
-import TrashContainer from './trash/container';
+import PeopleContainer from './people/container';
+import PersonPageContainer from './people/person-page-container';
 import ReportsContainer from './reports/container';
+import TrashContainer from './trash/container';
 import NotFound from './common/not-found';
+
 import Loader from './common/loader';
 import Sidebar from './sidebar';
 
@@ -22,8 +25,11 @@ export default class Root extends React.Component {
   }
 
   componentDidMount() {
-    const { getAddresses } = this.props;
-    getAddresses()
+    const { getAddresses, getPeople } = this.props;
+    getAddresses().then(() => {
+      getPeople()
+    })
+
   }
 
   toggleSidebar() {
@@ -32,10 +38,11 @@ export default class Root extends React.Component {
   }
 
   render() {
-    const { addressesLoaded } = this.props;
+    const { addressesLoaded, peopleLoaded } = this.props;
     const { sidebarExpanded } = this.state;
 
-    if (!addressesLoaded) { return ( <Loader size="10x" color="#FD2937" /> ) }
+    const necessaryDataLoaded = !addressesLoaded && !peopleLoaded
+    if (necessaryDataLoaded) { return ( <Loader size="10x" color="#FD2937" /> ) }
 
     return (
       <div>
@@ -52,8 +59,10 @@ export default class Root extends React.Component {
             <Route path="/" exact component={AddressContainer} />
             <Route exact path="/addresses" component={AddressContainer} />
             <Route exact path="/addresses/:addressId" component={AddressPageContainer} />
-            <Route exact path="/trash" component={TrashContainer} />
+            <Route exact path="/people" component={PeopleContainer} />
+            <Route exact path="/people/:personId" component={PersonPageContainer} />
             <Route exact path="/reports" component={ReportsContainer} />
+            <Route exact path="/trash" component={TrashContainer} />
             <Route component={NotFound} />
           </Switch>
         </div>

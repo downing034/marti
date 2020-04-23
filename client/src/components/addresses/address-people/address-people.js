@@ -28,6 +28,7 @@ export default class AddressPeople extends React.Component {
               <PersonCardContainer personId="2" />
               <PersonCardContainer personId="3" />
               <PersonCardContainer personId="4" />
+              <PersonCardContainer personId="5" />
             </div>
           </PanelBody>
         </Panel>

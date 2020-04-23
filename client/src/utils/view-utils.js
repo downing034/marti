@@ -1,3 +1,11 @@
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faShoppingCart,
+  faUserTag,
+  faUserTie
+} from '@fortawesome/free-solid-svg-icons';
+
 import { COUNTRY_LOCATIONS } from '../constants/country-list';
 import { GROUPED_LOCATIONS } from '../constants/state-list';
 
@@ -32,13 +40,43 @@ export function fullName(person) {
 }
 
 export function setPersonType(person) {
-  if(person.isBuyer) {
-    return "Buyer"
-  } else if (person.isSeller) {
-    return "Seller"
-  } else if (person.isAgent) {
-    return "Agent"
-  } else {
-    return undefined
-  }
+  const personTypeList = []
+  if (person.isBuyer) { personTypeList.push('Buyer') }
+  if (person.isSeller) { personTypeList.push('Seller') }
+  if (person.isAgent) { personTypeList.push('Agent') }
+
+  return personTypeList
+}
+
+export function renderBuyerIcon(color) {
+  return (
+    <FontAwesomeIcon
+      icon={faShoppingCart}
+      size="1x"
+      color={color}
+      title="Buyer"
+    />
+  )
+}
+
+export function renderSellerIcon(color) {
+  return (
+    <FontAwesomeIcon
+      icon={faUserTag}
+      size="1x"
+      color={color}
+      title="Seller"
+    />
+  )
+}
+
+export function renderAgentIcon(color) {
+  return (
+    <FontAwesomeIcon
+      icon={faUserTie}
+      size="1x"
+      color={color}
+      title="Agent"
+    />
+  )
 }

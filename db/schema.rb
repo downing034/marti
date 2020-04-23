@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_20_164105) do
+ActiveRecord::Schema.define(version: 2020_04_23_232112) do
 
   create_table "addresses", force: :cascade do |t|
     t.text "address"
@@ -24,17 +24,9 @@ ActiveRecord::Schema.define(version: 2020_04_20_164105) do
     t.boolean "completed", default: false
   end
 
-  create_table "contact_infos", force: :cascade do |t|
+  create_table "addresses_people", id: false, force: :cascade do |t|
+    t.integer "address_id"
     t.integer "person_id"
-    t.string "phone_one_label"
-    t.string "phone_one"
-    t.string "phone_two_label"
-    t.string "phone_two"
-    t.string "primary_email"
-    t.string "secondary_email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["person_id"], name: "index_contact_infos_on_person_id"
   end
 
   create_table "people", force: :cascade do |t|
@@ -44,7 +36,16 @@ ActiveRecord::Schema.define(version: 2020_04_20_164105) do
     t.boolean "is_agent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "address_id"
+    t.boolean "is_buyer"
+    t.boolean "is_seller"
+    t.string "deleted_entity"
+    t.boolean "completed", default: false
+    t.string "primary_email"
+    t.string "secondary_email"
+    t.string "phone_one_label"
+    t.string "phone_one"
+    t.string "phone_two_label"
+    t.string "phone_two"
   end
 
 end
