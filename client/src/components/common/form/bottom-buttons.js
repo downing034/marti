@@ -8,10 +8,9 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 export default function BottomButtons(props) {
   const { submitting, onCancel, onSubmit, id, isDirty } = props;
 
-  const buttonClass = isDirty ? 'btn-success' : 'btn-secondary'
   return (
     <div id={id} className="bottom-buttons float-right">
-      <button className={`btn ${buttonClass} submit-button`} type="submit" disabled={submitting || !isDirty} onClick={onSubmit}>
+      <button className={`btn btn-success submit-button`} type="submit" disabled={submitting || !isDirty} onClick={onSubmit}>
         {!submitting && <FontAwesomeIcon
           icon={faCheck}
           size="1x"
@@ -27,7 +26,7 @@ export default function BottomButtons(props) {
         {' Save'}
       </button>
 
-      <button className="btn btn-danger" disabled={submitting} onClick={onCancel}>Cancel</button>
+      <button className="btn btn-danger" disabled={submitting || !isDirty} onClick={onCancel}>Cancel</button>
     </div>
   );
 }

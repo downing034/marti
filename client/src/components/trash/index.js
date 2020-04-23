@@ -12,13 +12,20 @@ import TableRow from '../common/tables/table-row';
 import EmptyRow from '../common/tables/empty-row';
 import Td from '../common/tables/table-data';
 
-import { formatCountry } from '../../utils/view-utils';
+import {
+  formatCountry,
+  renderAgentIcon,
+  renderBuyerIcon,
+  renderSellerIcon
+} from '../../utils/view-utils';
 
 export default class Trash extends React.Component {
   constructor(props) {
     super(props)
-    this.onRestore = this.onRestore.bind(this)
-    this.onDelete = this.onDelete.bind(this)
+    this.onAddressRestore = this.onAddressRestore.bind(this)
+    this.onAddressDelete = this.onAddressDelete.bind(this)
+    this.onPersonRestore = this.onPersonRestore.bind(this)
+    this.onPersonDelete = this.onPersonDelete.bind(this)
   }
 
   componentDidMount() {
@@ -26,21 +33,32 @@ export default class Trash extends React.Component {
     getAddresses()
   }
 
-  onRestore(addressId) {
+  onAddressRestore(addressId) {
     const { restoreAddress } = this.props;
     restoreAddress(addressId).then(() => {})
   }
 
-  onDelete(addressId) {
+  onAddressDelete(addressId) {
     const { deleteAddress } = this.props;
 
     return deleteAddress(addressId).then(() => {})
   }
 
-  render() {
-    const { deletedAddresses } = this.props;
+  onPersonRestore(personId) {
+    const { restorePerson } = this.props;
+    restorePerson(personId).then(() => {})
+  }
 
-    const headers = [
+  onPersonDelete(personId) {
+    const { deletePerson } = this.props;
+
+    return deletePerson(personId).then(() => {})
+  }
+
+  render() {
+    const { deletedAddresses, deletedPeople } = this.props;
+
+    const addressHeaders = [
       { name: 'Address' },
       { name: 'City', classes: 'text-center' },
       { name: 'State', classes: 'text-center' },
@@ -51,6 +69,18 @@ export default class Trash extends React.Component {
 
     const addressTableRows = Array.isArray(deletedAddresses) && deletedAddresses.length ?
       this.renderDeletedAddresses(deletedAddresses) : this.renderEmptyRow('addresses')
+
+    const personHeaders = [
+      { name: 'First Name' },
+      { name: 'Last Name' },
+      { name: 'Buyer', classes: 'text-center' },
+      { name: 'Seller', classes: 'text-center' },
+      { name: 'Agent', classes: 'text-center' },
+      { name: 'Actions', classes: 'text-center' }
+    ]
+
+    const personTableRows = Array.isArray(deletedPeople) && deletedPeople.length ?
+      this.renderDeletedPeople(deletedPeople) : this.renderEmptyRow('people')
 
     return (
       <div>
@@ -65,9 +95,25 @@ export default class Trash extends React.Component {
           />
           <PanelBody>
             <Table>
-              <TableHeader headers={headers} />
+              <TableHeader headers={addressHeaders} />
               <TableBody>
                 {addressTableRows}
+              </TableBody>
+            </Table>
+          </PanelBody>
+          <PanelFooter />
+        </Panel>
+        <br />
+
+        <Panel>
+          <PanelHeader
+            headerText="Person Information"
+          />
+          <PanelBody>
+            <Table>
+              <TableHeader headers={personHeaders} />
+              <TableBody>
+                {personTableRows}
               </TableBody>
             </Table>
           </PanelBody>
@@ -93,13 +139,13 @@ export default class Trash extends React.Component {
           <Td classes="text-center">
             <button
               className="btn btn-primary submit-button"
-              onClick={() => { this.onRestore(addressId) }}
+              onClick={() => { this.onAddressRestore(addressId) }}
             >
               Restore Address
             </button>
             <button
               className="btn btn-danger"
-              onClick={() => { if (window.confirm('Are you sure you wish to delete this address? This cannot be undone.')) this.onDelete(address.id) } }
+              onClick={() => { if (window.confirm('Are you sure you wish to delete this address? This cannot be undone.')) this.onAddressDelete(addressId) } }
             >
               Delete Address
             </button>
@@ -109,9 +155,44 @@ export default class Trash extends React.Component {
     })
   }
 
+  renderDeletedPeople(deletedPeople) {
+    return deletedPeople.map((person, index) => {
+      const personId = person.id
+      const buyer = person.isBuyer
+      const seller = person.isSeller
+      const agent = person.isAgent
+      return (
+        <TableRow
+          key={index}
+          clickable={false}
+        >
+          <Td>{person.firstName}</Td>
+          <Td>{person.lastName}</Td>
+          <Td classes="text-center">{ buyer ? renderBuyerIcon() : '' }</Td>
+          <Td classes="text-center">{ seller ? renderSellerIcon() : '' }</Td>
+          <Td classes="text-center">{ agent ? renderAgentIcon() : '' }</Td>
+          <Td classes="text-center">
+            <button
+              className="btn btn-primary submit-button"
+              onClick={() => { this.onPersonRestore(personId) }}
+            >
+              Restore Person
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => { if (window.confirm('Are you sure you wish to delete this person? This cannot be undone.')) this.onPersonDelete(personId) } }
+            >
+              Delete Person
+            </button>
+          </Td>
+        </TableRow>
+      )
+    })
+  }
+
   renderEmptyRow(entity) {
     return (
-      <EmptyRow colspan="6" classes="text-center" rowText={`You currently have no ${entity}.`}/>
+      <EmptyRow colspan="6" classes="text-center" rowText={`There currently are no ${entity} in this list.`}/>
     )
   }
 }

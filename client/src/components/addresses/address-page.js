@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AddressInformation from './address-information/address-information';
+import AddressPeople from './address-people/address-people';
 import '../../styles/buttons.css'
 
 export default class AddressPage extends React.Component {
   handleAddressDelete(addressId) {
     const { history, softDeleteAddress } = this.props;
-
     return softDeleteAddress(addressId).then(() => {
       history.push('/addresses')
     })
@@ -14,7 +14,6 @@ export default class AddressPage extends React.Component {
 
   handleAddressComplete(addressId) {
     const { history, completeAddress } = this.props;
-
     return completeAddress(addressId).then(() => {
       history.push('/addresses')
     })
@@ -25,6 +24,8 @@ export default class AddressPage extends React.Component {
     return (
       <div className="container">
         <AddressInformation address={address} />
+        <br />
+        <AddressPeople />
 
         <button
           className="btn btn-warning float-left complete-button"

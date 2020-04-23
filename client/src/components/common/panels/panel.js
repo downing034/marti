@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../../../styles/panels.css';
 
-export default function Panel({ children }) {
+
+export default function Panel({ children, classes }) {
   return (
-    <div className="card card-default full-width">
+    <div className={`card card-default full-width ${classes}`}>
       {children}
     </div>
   )

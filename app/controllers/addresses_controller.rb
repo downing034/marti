@@ -3,7 +3,7 @@ class AddressesController < ApiController
 
   def index
     @addresses = Address.all
-    render json: @addresses.to_json
+    render json: @addresses.to_json(include: { people: {} })
   end
 
   def show
@@ -32,12 +32,10 @@ class AddressesController < ApiController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_address
       @address = Address.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
     def address_params
       params.require(:address).permit(:address, :city, :state, :zip_code, :country, :deleted_entity, :completed)
     end
