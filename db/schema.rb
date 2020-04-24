@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_23_232112) do
+ActiveRecord::Schema.define(version: 2020_04_24_030309) do
 
   create_table "addresses", force: :cascade do |t|
     t.text "address"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_232112) do
     t.string "phone_one"
     t.string "phone_two_label"
     t.string "phone_two"
+    t.boolean "intro_email_sent", default: false
   end
 
 end

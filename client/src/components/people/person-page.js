@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PersonInformation from './person-information/person-information';
+import PersonIntro from './person-intro/person-intro';
 import '../../styles/buttons.css'
 
 export default class PersonPage extends React.Component {
@@ -23,6 +24,9 @@ export default class PersonPage extends React.Component {
     return (
       <div className="container">
         <PersonInformation person={person} />
+        <br />
+
+      <PersonIntro person={person} />
 
         <button
           className="btn btn-warning float-left complete-button"

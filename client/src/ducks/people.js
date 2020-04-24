@@ -112,6 +112,7 @@ export function getPerson(personId) {
 }
 
 export function submitPersonForm(personData) {
+  console.log('persondata before it leaves', personData)
   // editing an existing person
   if (personData.id) {
     return dispatch => {

@@ -9,7 +9,7 @@ paul = Person.create!(
   phone_one: '555-444-3333',
   phone_two_label: 'work',
   phone_two: '999-888-7777',
-  primary_email: 'charlie@work.edu',
+  primary_email: 'downing034+wide-receiver@gmail.com',
   secondary_email: 'charlie@home.edu'
 )
 

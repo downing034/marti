@@ -21,7 +21,9 @@ class PeopleController < ApiController
   end
 
   def update
+    previous_intro_email_sent = @person[:intro_email_sent]
     if @person.update(person_params)
+      send_intro_email(@person) if previous_intro_email_sent == false && person_params[:intro_email_sent] == true
       render json: @person
     else
       render json: @person.errors, status: :unprocessable_entity
@@ -52,7 +54,12 @@ class PeopleController < ApiController
         :phone_one_label,
         :phone_one,
         :phone_two_label,
-        :phone_two
+        :phone_two,
+        :intro_email_sent
       )
+    end
+
+    def send_intro_email(person)
+      PersonMailer.intro_email(person).deliver_now
     end
 end

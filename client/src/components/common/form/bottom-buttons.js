@@ -26,7 +26,7 @@ export default function BottomButtons(props) {
         {' Save'}
       </button>
 
-      <button className="btn btn-danger" disabled={submitting || !isDirty} onClick={onCancel}>Cancel</button>
+      <button className="btn btn-danger" disabled={submitting} onClick={onCancel}>Cancel</button>
     </div>
   );
 }
