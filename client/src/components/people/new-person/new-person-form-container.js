@@ -9,7 +9,9 @@ export const mapStateToProps = (state, ownProps) => {
     isAgent: false,
     isBuyer: false,
     isSeller: false,
-    addresses: []
+    addresses: [],
+    phoneOneLabel: 'mobile',
+    phoneTwoLabel: 'work'
   }
   return { initialValues, handleFormAction: ownProps.handleFormAction };
 };

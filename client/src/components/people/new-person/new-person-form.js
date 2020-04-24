@@ -43,5 +43,6 @@ class NewPersonForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'new-person'
+  form: 'new-person',
+  enableReinitialize: true // load the form with default values every time
 })(NewPersonForm);
