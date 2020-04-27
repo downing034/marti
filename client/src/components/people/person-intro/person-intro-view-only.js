@@ -22,6 +22,7 @@ export default function PersonInformationViewOnly({ person }) {
             }}
             disabled={true}
           />
+          <br />
         </div>
       </div>
       <br/>

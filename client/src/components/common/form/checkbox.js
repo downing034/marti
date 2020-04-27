@@ -43,15 +43,28 @@ export default class Checkbox extends React.Component {
              }}
           />
           <span className="React__checkbox--span">
-            {checked && <FontAwesomeIcon
-              icon={faCheck}
-              size="1x"
-              color="#FFFFFF"
-              title="Loading"
-            />}
+            {this.renderCheckedIcon()}
           </span>
         </label>
       </div>
     );
+  }
+
+  renderCheckedIcon() {
+    const { checked } = this.state;
+    if (checked) {
+      return (
+        <FontAwesomeIcon
+          icon={faCheck}
+          size="1x"
+          color="#FFFFFF"
+          title="Loading"
+        />
+      )
+    } else {
+      return (
+        <br />
+      )
+    }
   }
 }
