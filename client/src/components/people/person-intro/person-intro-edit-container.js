@@ -8,8 +8,7 @@ import { submitPersonForm } from '../../../ducks/people';
 import { findPerson, people } from '../../../selectors/people';
 
 export const mapStateToProps = (state, ownProps) => {
-  const personId = parseInt(ownProps.personId)
-  const person = findPerson(people(state), personId)
+  const person = ownProps.person
 
   const initialValues = person ? { ...person } : {}
   return {

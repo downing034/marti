@@ -16,6 +16,7 @@ import Sidebar from './sidebar';
 
 import '../styles/app.css'
 import '../styles/sidebar-nav.css'
+import '../styles/checkboxes.scss'
 
 export default class Root extends React.Component {
   constructor(props) {

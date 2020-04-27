@@ -18,7 +18,7 @@ export default class PersonIntro extends React.Component {
   render() {
     const { person } = this.props;
     const { editing } = this.state;
-    const personBlock = editing ? this.renderPersonIntroForm(person.id) : this.renderViewOnlyPersonIntroForm(person)
+    const personBlock = editing ? this.renderPersonIntroForm(person) : this.renderViewOnlyPersonIntroForm(person)
 
     return (
       <div className="row panel-spacing">
@@ -40,8 +40,9 @@ export default class PersonIntro extends React.Component {
 
   handleFormAction() { this.setState({ editing: false }) }
 
-  renderPersonIntroForm(personId) {
-    return ( <PersonIntroEditFormContainer personId={personId}  handleFormAction={this.handleFormAction}/>)
+  renderPersonIntroForm(person) {
+    console.log('coolcart')
+    return ( <PersonIntroEditFormContainer person={person}  handleFormAction={this.handleFormAction}/>)
   }
 
   renderViewOnlyPersonIntroForm(person) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field } from 'redux-form';
-
+import Checkbox from '../../common/form/checkbox';
 
 export default function PersonIntroFormFields() {
   return (
@@ -12,8 +12,16 @@ export default function PersonIntroFormFields() {
       </div>
 
       <div className="row">
+
+
         <div className="col-md-3 text-center">
-          <Field name="introEmailSent" id="intro-email-sent" component='input' type="checkbox"/>
+          <Field
+            name="introEmailSent"
+            id="intro-email-sent"
+            component={Checkbox}
+            type="checkbox"
+            className="checkbox-custom"
+          />
         </div>
       </div>
       <br/>
@@ -21,3 +29,5 @@ export default function PersonIntroFormFields() {
     </div>
   )
 }
+
+

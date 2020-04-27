@@ -5,6 +5,8 @@ export const people = state => personSelector(state).people;
 export const peopleLoaded = state => personSelector(state).peopleLoaded;
 export const deletedPeople = state => personSelector(state).deletedPeople;
 export const activePeople = state => personSelector(state).activePeople;
+export const selectedPerson = state => personSelector(state).selectedPerson;
+export const selectedPersonLoaded = state => personSelector(state).selectedPersonLoaded;
 export const completedPeople = state => personSelector(state).completedPeople;
 
 export function findPerson(people, personId) {

@@ -7,6 +7,7 @@ import { formatResponseFromApi, formatResponseToApi } from '../utils/api-utils';
 // Actions
 export const RECEIVE_PEOPLE_STARTED = 'RECEIVE_PEOPLE_STARTED';
 export const RECEIVE_PEOPLE = 'RECEIVE_PEOPLE';
+export const RECEIVE_SELECTED_PERSON = 'RECEIVE_SELECTED_PERSON';
 export const UPDATE_PERSON_INFORMATION_STARTED = 'UPDATE_PERSON_INFORMATION_STARTED';
 export const UPDATE_PERSON_INFORMATION = 'UPDATE_PERSON_INFORMATION';
 export const DELETE_PERSON_STARTED = 'DELETE_PERSON_STARTED';
@@ -18,7 +19,9 @@ const initialState = {
   people: [],
   activePeople: [],
   peopleLoaded: false,
-  deletedPeople: []
+  deletedPeople: [],
+  selectedPerson: {},
+  selectedPersonLoaded: false
 };
 
 export default function reducer(state = initialState, action) {
@@ -36,9 +39,16 @@ export default function reducer(state = initialState, action) {
         completedPeople: filter(action.data, per => per.completed && per.deletedEntity !== 'person'),
         peopleLoaded: true
       }
+    case 'RECEIVE_SELECTED_PERSON':
+      return {
+        ...state,
+        selectedPerson: action.data,
+        selectedPersonLoaded: true
+      }
     case 'UPDATE_PERSON_INFORMATION':
       const existingPersonIndex = state.people.findIndex(person => person.id === action.data.id);
       let newState = {...state};
+      newState.selectedPerson = action.data;
       newState.people[existingPersonIndex] = action.data;
       return newState;
     case 'DELETE_PERSON_STARTED':
@@ -64,6 +74,10 @@ export const receivePeopleStarted = () => {
 
 export const receivePeople = (data) => {
   return { type: RECEIVE_PEOPLE, data };
+};
+
+export const receivePerson = (data) => {
+  return { type: RECEIVE_SELECTED_PERSON, data };
 };
 
 export const updatePersonInformationStarted = () => {
@@ -103,7 +117,7 @@ export function getPerson(personId) {
   return dispatch => {
     dispatch(receivePeopleStarted());
     return axios.get(`/api/people/${personId}`).then(res => {
-      return dispatch(receivePeople(formatResponseFromApi(res.data)));
+      return dispatch(receivePerson(formatResponseFromApi(res.data)));
     })
     .catch(error => {
       return dispatch(peopleError(error));
@@ -112,7 +126,6 @@ export function getPerson(personId) {
 }
 
 export function submitPersonForm(personData) {
-  console.log('persondata before it leaves', personData)
   // editing an existing person
   if (personData.id) {
     return dispatch => {

@@ -145,9 +145,9 @@ export default function PersonInformationViewOnly({ person }) {
           <label htmlFor="phone-one">Phone One </label>
         </div>
         <div className="col-md-3">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="phone-one-label">{person.phoneOneLabel}</span>
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="phone-one-label">{person.phoneOneLabel}</span>
             </div>
             <input
               id="phone-one"
@@ -163,9 +163,9 @@ export default function PersonInformationViewOnly({ person }) {
           <label htmlFor="phone-two">Phone Two </label>
         </div>
         <div className="col-md-3">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="phone-two-label">{person.phoneTwoLabel}</span>
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="phone-two-label">{person.phoneTwoLabel}</span>
             </div>
             <input
               id="phone-two"

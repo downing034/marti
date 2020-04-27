@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PersonInformation from './person-information/person-information';
 import PersonIntro from './person-intro/person-intro';
+import Loader from '../common/loader';
 import '../../styles/buttons.css'
 
 export default class PersonPage extends React.Component {
+  componentDidMount() {
+    const { personId, getPerson } = this.props;
+    getPerson(personId)
+  }
+
   handlePersonDelete(personId) {
     const { history, softDeletePerson } = this.props;
     return softDeletePerson(personId).then(() => {
@@ -20,7 +26,9 @@ export default class PersonPage extends React.Component {
   }
 
   render() {
-    const { person } = this.props;
+    const { person, selectedPersonLoaded } = this.props;
+    if(!selectedPersonLoaded) { return (<Loader size="10x" color='#000000'/>)}
+
     return (
       <div className="container">
         <PersonInformation person={person} />

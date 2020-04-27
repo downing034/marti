@@ -28,3 +28,6 @@
 
 #  Ignore public since it will be populated at build frontend
 /public
+
+# Ignore application configuration
+/config/application.yml

@@ -31,3 +31,18 @@
 .phone-select {
   margin-right: 5px;
 }
+
+
+/*for checkboxes*/
+.App {
+  display: flex;
+  position: absolute;
+  background: #111111;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
